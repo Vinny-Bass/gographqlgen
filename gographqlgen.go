@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"reflect"
+	"strings"
 )
 
 // Parses Golang struct into intermediate representation.
@@ -30,7 +31,7 @@ func ParseStruct(s interface{}) Type {
 }
 
 // Converts intermediate representation into GraphQL schema.
-func GenerateSchema(t Type) string {
+func GenerateSchema(t Type, trimSpace bool) string {
 	var buf bytes.Buffer
 
 	fmt.Fprintf(&buf, "type %s {\n", t.Name)
@@ -39,27 +40,9 @@ func GenerateSchema(t Type) string {
 	}
 	fmt.Fprintf(&buf, "}\n")
 
-	return buf.String()
+	if !trimSpace {
+		return buf.String()
+	}
+
+	return strings.Join(strings.Fields(buf.String()), "")
 }
-
-// type Author struct {
-// 	Name  string
-// 	Books []Book
-// }
-
-// type Book struct {
-// 	Title  string
-// 	Author *Author
-// 	name   string
-// }
-
-// func main() {
-// 	// Parse the structs and generate schemas
-// 	authorType := ParseStruct(Author{})
-// 	authorSchema := GenerateSchema(authorType)
-// 	fmt.Println(authorSchema)
-
-// 	bookType := ParseStruct(Book{})
-// 	bookSchema := GenerateSchema(bookType)
-// 	fmt.Println(bookSchema)
-// }

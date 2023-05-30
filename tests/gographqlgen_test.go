@@ -20,7 +20,7 @@ type Book struct {
 func TestSchemaGeneration(t *testing.T) {
 
 	authorType := gographqlgen.ParseStruct(Author{})
-	authorSchema := gographqlgen.GenerateSchema(authorType)
+	authorSchema := gographqlgen.GenerateSchema(authorType, false)
 
 	expectedSchema := `
 		type Author {
@@ -40,7 +40,7 @@ func TestSchemaGeneration(t *testing.T) {
 		}
 	`
 	bookType := gographqlgen.ParseStruct(Book{})
-	bookSchema := gographqlgen.GenerateSchema(bookType)
+	bookSchema := gographqlgen.GenerateSchema(bookType, false)
 
 	if strings.Join(strings.Fields(bookSchema), "") != strings.Join(strings.Fields(expectedSchema), "") {
 		t.Errorf("Expected:\n%s\nGot:\n%s", expectedSchema, bookSchema)
