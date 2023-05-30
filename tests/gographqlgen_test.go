@@ -40,9 +40,9 @@ func TestSchemaGeneration(t *testing.T) {
 		}
 	`
 	bookType := gographqlgen.ParseStruct(Book{})
-	bookSchema := gographqlgen.GenerateSchema(bookType, false)
+	bookSchema := gographqlgen.GenerateSchema(bookType, true)
 
-	if strings.Join(strings.Fields(bookSchema), "") != strings.Join(strings.Fields(expectedSchema), "") {
+	if bookSchema != strings.Join(strings.Fields(expectedSchema), "") {
 		t.Errorf("Expected:\n%s\nGot:\n%s", expectedSchema, bookSchema)
 	}
 
